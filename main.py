@@ -2,6 +2,7 @@ import platform
 import aiohttp
 import asyncio
 import datetime
+from sys import argv
 
 URL = 'https://api.privatbank.ua/p24api/exchange_rates?json&date='
 
@@ -41,11 +42,9 @@ def formate(list_dict):
 
 
 if __name__ == "__main__":
+    time_step = int(argv[1])
     if platform.system() == 'Windows':
         asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
-
-    time_step = 3
     dates = [datetime.datetime.strftime((datetime.date.today() - datetime.timedelta(days=i)), '%d.%m.%Y') for i in range(time_step)]
-    print(dates)
     results = asyncio.run(main(dates))
     print(results)
